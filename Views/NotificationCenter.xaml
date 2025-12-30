@@ -1,0 +1,393 @@
+<UserControl x:Class="LiquidGlassShell.Views.NotificationCenter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Width="420"
+             Height="640">
+    <UserControl.Resources>
+        <!-- ============================================
+             NOTIFICATION CENTER STYLES - Apple HIG
+             ============================================ -->
+        
+        <!-- Notification Item Style con micro-animaciones -->
+        <Style x:Key="NotificationItemStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource MaterialThin}"/>
+            <Setter Property="CornerRadius" Value="{StaticResource CornerRadiusL}"/>
+            <Setter Property="Padding" Value="{StaticResource SpacingM}"/>
+            <Setter Property="Margin" Value="0,8"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Opacity" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                                To="0.3"
+                                                Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                To="1"
+                                                Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                                To="0.2"
+                                                Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseIn"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                To="0.95"
+                                                Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseIn"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- Notification Priority Colors -->
+        <SolidColorBrush x:Key="NotificationLow" Color="{StaticResource SystemBlue}"/>
+        <SolidColorBrush x:Key="NotificationNormal" Color="{StaticResource SystemGreen}"/>
+        <SolidColorBrush x:Key="NotificationHigh" Color="{StaticResource SystemOrange}"/>
+        <SolidColorBrush x:Key="NotificationCritical" Color="{StaticResource SystemRed}"/>
+    </UserControl.Resources>
+    
+    <!-- ============================================
+         MAIN CONTAINER - Apple HIG Glass Material
+         ============================================ -->
+    <Border Background="{StaticResource MaterialRegular}"
+            CornerRadius="{StaticResource CornerRadiusXXL}"
+            Padding="{StaticResource SpacingL}"
+            x:Name="MainContainer"
+            Opacity="0">
+        <Border.Effect>
+            <StaticResource ResourceKey="BlurUltraThick"/>
+        </Border.Effect>
+        <Border.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform x:Name="ContainerScale" ScaleX="0.95" ScaleY="0.95"/>
+                <TranslateTransform x:Name="ContainerTranslate" X="30"/>
+            </TransformGroup>
+        </Border.RenderTransform>
+        <Border.Triggers>
+            <!-- Entrance Animation según Apple HIG -->
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <!-- Fade In -->
+                        <DoubleAnimation Storyboard.TargetName="MainContainer"
+                                        Storyboard.TargetProperty="Opacity"
+                                        To="1"
+                                        Duration="0:0:0.25">
+                            <DoubleAnimation.EasingFunction>
+                                <StaticResource ResourceKey="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <!-- Scale Animation -->
+                        <DoubleAnimation Storyboard.TargetName="ContainerScale"
+                                        Storyboard.TargetProperty="ScaleX"
+                                        To="1"
+                                        Duration="0:0:0.25">
+                            <DoubleAnimation.EasingFunction>
+                                <StaticResource ResourceKey="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="ContainerScale"
+                                        Storyboard.TargetProperty="ScaleY"
+                                        To="1"
+                                        Duration="0:0:0.25">
+                            <DoubleAnimation.EasingFunction>
+                                <StaticResource ResourceKey="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <!-- Translate Animation (slide from right) -->
+                        <DoubleAnimation Storyboard.TargetName="ContainerTranslate"
+                                        Storyboard.TargetProperty="X"
+                                        To="0"
+                                        Duration="0:0:0.25">
+                            <DoubleAnimation.EasingFunction>
+                                <StaticResource ResourceKey="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Border.Triggers>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- ============================================
+                 HEADER - Apple HIG Header Style
+                 ============================================ -->
+            <Grid Grid.Row="0"
+                  Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0"
+                           Text="Notificaciones"
+                           FontSize="{StaticResource FontSizeTitle2}"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource LabelPrimary}"
+                           VerticalAlignment="Center"/>
+                
+                <!-- Notification Count Badge -->
+                <Border Grid.Column="1"
+                        Background="{StaticResource SystemBlue}"
+                        CornerRadius="10"
+                        Padding="4,4"
+                        MinWidth="20"
+                        Height="20"
+                        VerticalAlignment="Center"
+                        x:Name="NotificationBadge"
+                        Opacity="0">
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="NotificationBadge"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    Duration="0:0:0.3"
+                                                    BeginTime="0:0:0.15">
+                                        <DoubleAnimation.EasingFunction>
+                                            <StaticResource ResourceKey="EaseOut"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                    <TextBlock Text="0"
+                               FontSize="{StaticResource FontSizeCaption2}"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+            </Grid>
+            
+            <!-- ============================================
+                 NOTIFICATIONS LIST - Apple HIG List Style
+                 ============================================ -->
+            <ScrollViewer Grid.Row="1"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Disabled"
+                         x:Name="NotificationsScrollViewer">
+                <ListBox x:Name="NotificationsListBox"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="{StaticResource LabelPrimary}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Style="{StaticResource NotificationItemStyle}">
+                                            <ContentPresenter/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!-- Priority Indicator -->
+                                <Ellipse Grid.Column="0"
+                                         Width="8"
+                                         Height="8"
+                                         Fill="{StaticResource SystemBlue}"
+                                         VerticalAlignment="Top"
+                                         Margin="0,4,0,0"
+                                         HorizontalAlignment="Left"/>
+                                
+                                <!-- Notification Content -->
+                                <StackPanel Grid.Column="1"
+                                            Margin="16,0,0,0">
+                                    <TextBlock Text="{Binding Title}"
+                                               FontSize="{StaticResource FontSizeSubheadline}"
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource LabelPrimary}"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="{Binding Message}"
+                                               FontSize="{StaticResource FontSizeBody}"
+                                               Foreground="{StaticResource LabelSecondary}"
+                                               TextWrapping="Wrap"
+                                               LineHeight="20"
+                                               Opacity="0.9"/>
+                                </StackPanel>
+                                
+                                <!-- Dismiss Button -->
+                                <Button Grid.Column="2"
+                                        Content="✕"
+                                        FontSize="12"
+                                        Foreground="{StaticResource LabelTertiary}"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Padding="{StaticResource SpacingXS}"
+                                        Cursor="Hand"
+                                        Opacity="0"
+                                        Margin="8,0,0,0"
+                                        x:Name="DismissButton">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Foreground" Value="{StaticResource LabelPrimary}"/>
+                                                    <Setter Property="Opacity" Value="1"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+            
+            <!-- ============================================
+                 FOOTER - Apple HIG Footer with Actions
+                 ============================================ -->
+            <Grid Grid.Row="2"
+                  Margin="0,16,0,0"
+                  x:Name="FooterGrid"
+                  Opacity="0">
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="FooterGrid"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="1"
+                                                Duration="0:0:0.3"
+                                                BeginTime="0:0:0.2">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Clear All Button -->
+                <Button Grid.Column="0"
+                        Content="Limpiar todo"
+                        Foreground="{StaticResource LabelPrimary}"
+                        BorderThickness="0"
+                        FontSize="{StaticResource FontSizeSubheadline}"
+                        FontWeight="Medium"
+                        Cursor="Hand"
+                        Click="ClearAllButton_Click"
+                        x:Name="ClearAllButton">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="ButtonBorder"
+                                    Background="{StaticResource MaterialThin}"
+                                    CornerRadius="{StaticResource CornerRadiusM}"
+                                    Padding="16,8">
+                                <Border.Effect>
+                                    <StaticResource ResourceKey="BlurThin"/>
+                                </Border.Effect>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="ButtonBorder"
+                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                                                To="0.3"
+                                                                Duration="0:0:0.15">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <StaticResource ResourceKey="EaseOut"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="ButtonBorder"
+                                                                Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                                                To="0.2"
+                                                                Duration="0:0:0.15">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <StaticResource ResourceKey="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                
+                <!-- Settings Button -->
+                <Button Grid.Column="1"
+                        Content="⚙"
+                        FontSize="16"
+                        Foreground="{StaticResource LabelSecondary}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="{StaticResource SpacingS}"
+                        Margin="16,0,0,0"
+                        Cursor="Hand"
+                        Opacity="0.7"
+                        x:Name="SettingsButton">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="{StaticResource LabelPrimary}"/>
+                                    <Setter Property="Opacity" Value="1"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,35 @@
+{
+  "items": [
+    {
+      "name": "File Explorer",
+      "id": "explorer",
+      "icon": "explorer.png",
+      "applicationName": "explorer.exe"
+    },
+    {
+      "name": "Settings",
+      "id": "settings",
+      "icon": "settings.png",
+      "applicationName": "ms-settings:"
+    },
+    {
+      "name": "Notepad",
+      "id": "notepad",
+      "icon": "notepad.png",
+      "executable": "C:\\Windows\\System32\\notepad.exe"
+    },
+    {
+      "name": "Calculator",
+      "id": "calculator",
+      "icon": "calculator.png",
+      "applicationName": "calc.exe"
+    },
+    {
+      "name": "Command Prompt",
+      "id": "cmd",
+      "icon": "terminal.png",
+      "executable": "C:\\Windows\\System32\\cmd.exe"
+    }
+  ]
+}
+

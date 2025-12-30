@@ -1,0 +1,280 @@
+<Application x:Class="LiquidGlassShell.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- ============================================
+             APPLE HUMAN INTERFACE GUIDELINES
+             Sistema de Diseño Completo para macOS
+             Basado en: https://developer.apple.com/design/human-interface-guidelines/
+             ============================================ -->
+        
+        <!-- ============================================
+             COLOR SYSTEM - Apple HIG Dark Mode
+             ============================================ -->
+        <!-- System Background Colors -->
+        <SolidColorBrush x:Key="SystemBackground" Color="#000000"/>
+        <SolidColorBrush x:Key="SystemBackgroundSecondary" Color="#1C1C1E"/>
+        <SolidColorBrush x:Key="SystemBackgroundTertiary" Color="#2C2C2E"/>
+        <SolidColorBrush x:Key="SystemBackgroundQuaternary" Color="#3A3A3C"/>
+        
+        <!-- Label Colors (Text) -->
+        <SolidColorBrush x:Key="LabelPrimary" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="LabelSecondary" Color="#EBEBF5"/>
+        <SolidColorBrush x:Key="LabelTertiary" Color="#EBEBF599"/>
+        <SolidColorBrush x:Key="LabelQuaternary" Color="#EBEBF54D"/>
+        
+        <!-- Separator Colors -->
+        <SolidColorBrush x:Key="SeparatorOpaque" Color="#38383A"/>
+        <SolidColorBrush x:Key="SeparatorNonOpaque" Color="#545458"/>
+        
+        <!-- Fill Colors -->
+        <SolidColorBrush x:Key="FillPrimary" Color="#78788033"/>
+        <SolidColorBrush x:Key="FillSecondary" Color="#78788028"/>
+        <SolidColorBrush x:Key="FillTertiary" Color="#7676801F"/>
+        <SolidColorBrush x:Key="FillQuaternary" Color="#74748014"/>
+        
+        <!-- System Accent Colors -->
+        <SolidColorBrush x:Key="SystemBlue" Color="#007AFF"/>
+        <SolidColorBrush x:Key="SystemGreen" Color="#34C759"/>
+        <SolidColorBrush x:Key="SystemIndigo" Color="#5856D6"/>
+        <SolidColorBrush x:Key="SystemOrange" Color="#FF9500"/>
+        <SolidColorBrush x:Key="SystemPink" Color="#FF2D55"/>
+        <SolidColorBrush x:Key="SystemPurple" Color="#AF52DE"/>
+        <SolidColorBrush x:Key="SystemRed" Color="#FF3B30"/>
+        <SolidColorBrush x:Key="SystemTeal" Color="#5AC8FA"/>
+        <SolidColorBrush x:Key="SystemYellow" Color="#FFCC00"/>
+        
+        <!-- ============================================
+             MATERIALS - Apple Glass Effects
+             ============================================ -->
+        <!-- Ultra Thin Material -->
+        <SolidColorBrush x:Key="MaterialUltraThin" Color="#F5F5F710"/>
+        <SolidColorBrush x:Key="MaterialUltraThinSecondary" Color="#F5F5F708"/>
+        
+        <!-- Thin Material -->
+        <SolidColorBrush x:Key="MaterialThin" Color="#F5F5F720"/>
+        <SolidColorBrush x:Key="MaterialThinSecondary" Color="#F5F5F710"/>
+        
+        <!-- Regular Material -->
+        <SolidColorBrush x:Key="MaterialRegular" Color="#E6FFFFFF"/>
+        <SolidColorBrush x:Key="MaterialRegularSecondary" Color="#CCFFFFFF"/>
+        <SolidColorBrush x:Key="MaterialRegularTertiary" Color="#B3FFFFFF"/>
+        
+        <!-- Thick Material -->
+        <SolidColorBrush x:Key="MaterialThick" Color="#F5F5F750"/>
+        <SolidColorBrush x:Key="MaterialThickSecondary" Color="#F5F5F740"/>
+        
+        <!-- Ultra Thick Material -->
+        <SolidColorBrush x:Key="MaterialUltraThick" Color="#F5F5F780"/>
+        <SolidColorBrush x:Key="MaterialUltraThickSecondary" Color="#F5F5F760"/>
+        
+        <!-- ============================================
+             TYPOGRAPHY - SF Pro Font System
+             ============================================ -->
+        <FontFamily x:Key="SfProRounded">./Fonts/#SF Pro Rounded</FontFamily>
+        <FontFamily x:Key="SfProText">./Fonts/#SF Pro Text</FontFamily>
+        <FontFamily x:Key="SfProDisplay">./Fonts/#SF Pro Display</FontFamily>
+        
+        <!-- Typography Scale según Apple HIG -->
+        <sys:Double x:Key="FontSizeLargeTitle">34</sys:Double>
+        <sys:Double x:Key="FontSizeTitle1">28</sys:Double>
+        <sys:Double x:Key="FontSizeTitle2">22</sys:Double>
+        <sys:Double x:Key="FontSizeTitle3">20</sys:Double>
+        <sys:Double x:Key="FontSizeHeadline">17</sys:Double>
+        <sys:Double x:Key="FontSizeBody">17</sys:Double>
+        <sys:Double x:Key="FontSizeCallout">16</sys:Double>
+        <sys:Double x:Key="FontSizeSubheadline">15</sys:Double>
+        <sys:Double x:Key="FontSizeFootnote">13</sys:Double>
+        <sys:Double x:Key="FontSizeCaption1">12</sys:Double>
+        <sys:Double x:Key="FontSizeCaption2">11</sys:Double>
+        
+        <!-- ============================================
+             SPACING SYSTEM - Apple HIG 8pt Grid
+             ============================================ -->
+        <sys:Double x:Key="SpacingXS">4</sys:Double>
+        <sys:Double x:Key="SpacingS">8</sys:Double>
+        <sys:Double x:Key="SpacingM">16</sys:Double>
+        <sys:Double x:Key="SpacingL">24</sys:Double>
+        <sys:Double x:Key="SpacingXL">32</sys:Double>
+        <sys:Double x:Key="SpacingXXL">40</sys:Double>
+        
+        <!-- ============================================
+             CORNER RADIUS - Apple HIG Standards
+             ============================================ -->
+        <sys:Double x:Key="CornerRadiusXS">4</sys:Double>
+        <sys:Double x:Key="CornerRadiusS">6</sys:Double>
+        <sys:Double x:Key="CornerRadiusM">10</sys:Double>
+        <sys:Double x:Key="CornerRadiusL">14</sys:Double>
+        <sys:Double x:Key="CornerRadiusXL">20</sys:Double>
+        <sys:Double x:Key="CornerRadiusXXL">28</sys:Double>
+        
+        <!-- Thickness Resources para Margin/Padding -->
+        <Thickness x:Key="MarginXS">4</Thickness>
+        <Thickness x:Key="MarginS">8</Thickness>
+        <Thickness x:Key="MarginM">16</Thickness>
+        <Thickness x:Key="MarginL">24</Thickness>
+        <Thickness x:Key="MarginXL">32</Thickness>
+        <Thickness x:Key="PaddingXS">4</Thickness>
+        <Thickness x:Key="PaddingS">8</Thickness>
+        <Thickness x:Key="PaddingM">16</Thickness>
+        <Thickness x:Key="PaddingL">24</Thickness>
+        <Thickness x:Key="PaddingXL">32</Thickness>
+        
+        <!-- ============================================
+             BLUR EFFECTS - Apple HIG Specifications
+             ============================================ -->
+        <BlurEffect x:Key="BlurUltraThin" Radius="5" KernelType="Gaussian" RenderingBias="Quality"/>
+        <BlurEffect x:Key="BlurThin" Radius="10" KernelType="Gaussian" RenderingBias="Quality"/>
+        <BlurEffect x:Key="BlurRegular" Radius="20" KernelType="Gaussian" RenderingBias="Quality"/>
+        <BlurEffect x:Key="BlurThick" Radius="30" KernelType="Gaussian" RenderingBias="Quality"/>
+        <BlurEffect x:Key="BlurUltraThick" Radius="40" KernelType="Gaussian" RenderingBias="Quality"/>
+        <BlurEffect x:Key="BlurLight" Radius="12"/>
+        <!-- ============================================
+             EASING FUNCTIONS - Apple Animation Curves
+             ============================================ -->
+        <CubicEase x:Key="EaseOut" EasingMode="EaseOut"/>
+        <CubicEase x:Key="EaseIn" EasingMode="EaseIn"/>
+        <CubicEase x:Key="EaseInOut" EasingMode="EaseInOut"/>
+        <Duration x:Key="AnimationFast">0:0:0.15</Duration>
+        <!-- Spring Animations (simuladas con CubicEase) -->
+        <CubicEase x:Key="SpringGentle" EasingMode="EaseOut"/>
+        <CubicEase x:Key="SpringDefault" EasingMode="EaseOut"/>
+        <CubicEase x:Key="SpringWobbly" EasingMode="EaseOut"/>
+        
+        <!-- ============================================
+             GRADIENT BRUSHES - Apple Material Gradients
+             ============================================ -->
+        <!-- Menu Bar Gradient -->
+        <LinearGradientBrush x:Key="MenuBarGradient" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#F0FFFFFF" Offset="0.0"/>
+            <GradientStop Color="#E8FFFFFF" Offset="0.3"/>
+            <GradientStop Color="#E6FFFFFF" Offset="0.7"/>
+            <GradientStop Color="#E0FFFFFF" Offset="1.0"/>
+        </LinearGradientBrush>
+        
+        <!-- Dock Gradient -->
+        <LinearGradientBrush x:Key="DockGradient" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#E6FFFFFF" Offset="0.0"/>
+            <GradientStop Color="#DDFFFFFF" Offset="0.5"/>
+            <GradientStop Color="#CCFFFFFF" Offset="1.0"/>
+        </LinearGradientBrush>
+        
+        <!-- Glass Material Gradient -->
+        <LinearGradientBrush x:Key="GlassGradient" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#E6FFFFFF" Offset="0.0"/>
+            <GradientStop Color="#D0FFFFFF" Offset="0.4"/>
+            <GradientStop Color="#CCFFFFFF" Offset="0.6"/>
+            <GradientStop Color="#B3FFFFFF" Offset="1.0"/>
+        </LinearGradientBrush>
+        
+        <!-- Card Gradient -->
+        <LinearGradientBrush x:Key="CardGradient" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#F5F5F730" Offset="0.0"/>
+            <GradientStop Color="#F5F5F720" Offset="0.5"/>
+            <GradientStop Color="#F5F5F710" Offset="1.0"/>
+        </LinearGradientBrush>
+        
+        <!-- ============================================
+             SHADOW EFFECTS - Apple Depth System
+             ============================================ -->
+        <DropShadowEffect x:Key="ShadowSmall" Color="#000000" BlurRadius="4" Opacity="0.15" ShadowDepth="2" Direction="270"/>
+        <DropShadowEffect x:Key="ShadowMedium" Color="#000000" BlurRadius="8" Opacity="0.20" ShadowDepth="4" Direction="270"/>
+        <DropShadowEffect x:Key="ShadowLarge" Color="#000000" BlurRadius="16" Opacity="0.25" ShadowDepth="8" Direction="270"/>
+        <DropShadowEffect x:Key="ShadowXLarge" Color="#000000" BlurRadius="24" Opacity="0.30" ShadowDepth="12" Direction="270"/>
+        
+        <!-- ============================================
+             GLOBAL STYLES - Apple HIG Base Styles
+             ============================================ -->
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="{StaticResource SfProRounded}"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+            <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled"/>
+        </Style>
+        
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource SfProText}"/>
+            <Setter Property="Foreground" Value="{StaticResource LabelPrimary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="LineHeight" Value="20"/>
+        </Style>
+        
+        <Style TargetType="Menu">
+            <Setter Property="FontFamily" Value="{StaticResource SfProText}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource LabelPrimary}"/>
+        </Style>
+        
+        <Style TargetType="MenuItem">
+            <Setter Property="FontFamily" Value="{StaticResource SfProText}"/>
+            <Setter Property="Foreground" Value="{StaticResource LabelPrimary}"/>
+            <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="8,6"/>
+        </Style>
+        
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="{StaticResource SfProText}"/>
+            <Setter Property="Foreground" Value="{StaticResource LabelPrimary}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        
+        <!-- ============================================
+             COMPONENT STYLES - Apple HIG Components
+             ============================================ -->
+        <!-- Card Style -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource MaterialRegular}"/>
+            <Setter Property="CornerRadius" Value="{StaticResource CornerRadiusL}"/>
+            <Setter Property="Padding" Value="{StaticResource SpacingL}"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <StaticResource ResourceKey="BlurRegular"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Button Primary Style -->
+        <Style x:Key="ButtonPrimaryStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource SystemBlue}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="{StaticResource CornerRadiusM}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Input Field Style -->
+        <Style x:Key="InputFieldStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource MaterialThin}"/>
+            <Setter Property="Foreground" Value="{StaticResource LabelPrimary}"/>
+            <Setter Property="FontSize" Value="{StaticResource FontSizeBody}"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        
+        <!-- ============================================
+             ANIMATION DURATIONS - Apple HIG Timing
+             ============================================ -->
+        <!-- Fast: 0.15s - Micro-interactions -->
+        <!-- Normal: 0.25s - Standard transitions -->
+        <!-- Slow: 0.35s - Complex animations -->
+        <!-- Very Slow: 0.5s - Major state changes -->
+    </Application.Resources>
+</Application>

@@ -1,0 +1,373 @@
+<Window x:Class="LiquidGlassShell.Views.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Búsqueda"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Width="680"
+        Height="580"
+        ShowInTaskbar="False"
+        Topmost="True">
+    <Window.Resources>
+        <!-- ============================================
+             SEARCH WINDOW STYLES - Apple HIG
+             ============================================ -->
+        
+        <!-- Search Result Item Style con micro-animaciones -->
+        <Style x:Key="SearchResultItemStyle" TargetType="Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="{StaticResource CornerRadiusM}"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="Margin" Value="8,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Opacity" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                                To="0.15"
+                                                Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                To="1"
+                                                Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Opacity)"
+                                                To="0"
+                                                Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseIn"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                To="0.95"
+                                                Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseIn"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="#FFFFFF" Opacity="0.15"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- Search Icon Style -->
+        <Style x:Key="SearchIconStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="{StaticResource LabelSecondary}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    
+    <!-- ============================================
+         MAIN CONTAINER - Apple HIG Glass Material
+         ============================================ -->
+    <Border Background="{StaticResource MaterialRegular}"
+            CornerRadius="{StaticResource CornerRadiusXXL}"
+            Padding="{StaticResource SpacingXL}"
+            x:Name="MainContainer"
+            Opacity="0">
+        <Border.Effect>
+            <StaticResource ResourceKey="BlurUltraThick"/>
+        </Border.Effect>
+        <Border.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform x:Name="ContainerScale" ScaleX="0.92" ScaleY="0.92"/>
+                <TranslateTransform x:Name="ContainerTranslate" Y="-30"/>
+            </TransformGroup>
+        </Border.RenderTransform>
+        <Border.Triggers>
+            <!-- Entrance Animation según Apple HIG -->
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <!-- Fade In -->
+                        <DoubleAnimation Storyboard.TargetName="MainContainer"
+                                        Storyboard.TargetProperty="Opacity"
+                                        To="1"
+                                        Duration="0:0:0.3">
+                            <DoubleAnimation.EasingFunction>
+                                <StaticResource ResourceKey="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <!-- Scale Animation -->
+                        <DoubleAnimation Storyboard.TargetName="ContainerScale"
+                                        Storyboard.TargetProperty="ScaleX"
+                                        To="1"
+                                        Duration="0:0:0.3">
+                            <DoubleAnimation.EasingFunction>
+                                <StaticResource ResourceKey="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="ContainerScale"
+                                        Storyboard.TargetProperty="ScaleY"
+                                        To="1"
+                                        Duration="0:0:0.3">
+                            <DoubleAnimation.EasingFunction>
+                                <StaticResource ResourceKey="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <!-- Translate Animation -->
+                        <DoubleAnimation Storyboard.TargetName="ContainerTranslate"
+                                        Storyboard.TargetProperty="Y"
+                                        To="0"
+                                        Duration="0:0:0.3">
+                            <DoubleAnimation.EasingFunction>
+                                <StaticResource ResourceKey="EaseOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Border.Triggers>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- ============================================
+                 SEARCH BAR - Apple HIG Input Field
+                 ============================================ -->
+            <Border Grid.Row="0"
+                    Background="{StaticResource MaterialThin}"
+                    CornerRadius="{StaticResource CornerRadiusL}"
+                    Margin="0,0,0,16"
+                    Padding="0"
+                    x:Name="SearchBarBorder">
+                <Border.Effect>
+                    <StaticResource ResourceKey="BlurThin"/>
+                </Border.Effect>
+                <Border.RenderTransform>
+                    <TranslateTransform x:Name="SearchBarTranslate" Y="-10"/>
+                </Border.RenderTransform>
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="SearchBarTranslate"
+                                                Storyboard.TargetProperty="Y"
+                                                To="0"
+                                                Duration="0:0:0.25"
+                                                BeginTime="0:0:0.1">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Search Icon -->
+                    <TextBlock Grid.Column="0"
+                               Text="🔍"
+                               FontSize="18"
+                               Foreground="{StaticResource LabelSecondary}"
+                               VerticalAlignment="Center"
+                               Margin="16,0,8,0"
+                               Opacity="0.7"/>
+                    
+                    <!-- Search Input -->
+                    <TextBox x:Name="SearchTextBox"
+                             Grid.Column="1"
+                             FontSize="{StaticResource FontSizeHeadline}"
+                             Padding="8,0"
+                             Background="Transparent"
+                             Foreground="{StaticResource LabelPrimary}"
+                             BorderThickness="0"
+                             VerticalContentAlignment="Center">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TextBox">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    CornerRadius="{StaticResource CornerRadiusL}"
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ScrollViewer x:Name="PART_ContentHost"
+                                                             VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    
+                    <!-- Clear Button (aparece cuando hay texto) -->
+                    <Button Grid.Column="2"
+                            Content="✕"
+                            FontSize="14"
+                            Foreground="{StaticResource LabelTertiary}"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Padding="{StaticResource SpacingS}"
+                            Margin="0,0,8,0"
+                            Cursor="Hand"
+                            x:Name="ClearButton"
+                            Opacity="0"
+                            Click="ClearButton_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{StaticResource LabelPrimary}"/>
+                                        <Setter Property="Opacity" Value="1"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
+            
+            <!-- ============================================
+                 RESULTS LIST - Apple HIG List Style
+                 ============================================ -->
+            <ScrollViewer Grid.Row="1"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Disabled"
+                         x:Name="ResultsScrollViewer">
+                <ListBox x:Name="ResultsListBox"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Foreground="{StaticResource LabelPrimary}"
+                         SelectionMode="Single">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Style="{StaticResource SearchResultItemStyle}"
+                                                Background="Transparent">
+                                            <ContentPresenter/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <!-- Result Icon -->
+                                <Border Grid.Column="0"
+                                        Width="40"
+                                        Height="40"
+                                        Background="{StaticResource MaterialThin}"
+                                        CornerRadius="{StaticResource CornerRadiusS}"
+                                        Margin="0,0,16,0">
+                                    <TextBlock Text="📄"
+                                               FontSize="20"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource LabelSecondary}"/>
+                                </Border>
+                                
+                                <!-- Result Content -->
+                                <StackPanel Grid.Column="1"
+                                            VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Title}" 
+                                               FontSize="{StaticResource FontSizeBody}" 
+                                               FontWeight="SemiBold"
+                                               Foreground="{StaticResource LabelPrimary}"
+                                               Margin="0,0,0,4"/>
+                                    <TextBlock Text="{Binding Path}" 
+                                               FontSize="{StaticResource FontSizeFootnote}" 
+                                               Foreground="{StaticResource LabelSecondary}"
+                                               TextTrimming="CharacterEllipsis"
+                                               Opacity="0.8"/>
+                                </StackPanel>
+                                
+                                <!-- Result Type Indicator -->
+                                <TextBlock Grid.Column="2"
+                                           Text="→"
+                                           FontSize="16"
+                                           Foreground="{StaticResource LabelTertiary}"
+                                           VerticalAlignment="Center"
+                                           Margin="16,0,0,0"
+                                           Opacity="0.6"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+            
+            <!-- ============================================
+                 FOOTER - Apple HIG Footer Style
+                 ============================================ -->
+            <Border Grid.Row="2"
+                    Background="{StaticResource MaterialThin}"
+                    CornerRadius="{StaticResource CornerRadiusM}"
+                    Margin="0,16,0,0"
+                    Padding="8,4"
+                    x:Name="FooterBorder"
+                    Opacity="0">
+                <Border.Effect>
+                    <StaticResource ResourceKey="BlurThin"/>
+                </Border.Effect>
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="FooterBorder"
+                                                Storyboard.TargetProperty="Opacity"
+                                                To="1"
+                                                Duration="0:0:0.3"
+                                                BeginTime="0:0:0.2">
+                                    <DoubleAnimation.EasingFunction>
+                                        <StaticResource ResourceKey="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+                <TextBlock Text="Presiona Enter para abrir • Esc para cerrar"
+                           FontSize="{StaticResource FontSizeCaption2}"
+                           Foreground="{StaticResource LabelTertiary}"
+                           HorizontalAlignment="Center"
+                           Opacity="0.7"/>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
